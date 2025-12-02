@@ -6,13 +6,14 @@
 
 #define MAX_ESTACOES 10 
 #define ESTACAO_FINAL 9
-#define TEMPO_ESPERA 30 
+#define TEMPO_ESPERA 15 
 
 #define PORTA_ABERTA 1
 #define PORTA_FECHADA 0
 
 
 int estacao_atual = 0;
+int proxima_estacao = 1;
 int estado_porta = PORTA_FECHADA;
 
 void abrirPorta() {
@@ -25,9 +26,26 @@ void fechar_porta() {
     printf("Porta fechada na estação %d\n", estacao_atual);
 }
 
-void espera(int segundos) {
-    segundos = 30;
-    sleep(segundos);
+void parar_estacao() {
+    printf("Você chegou na estação %d\n", estacao_atual);
+    abrirPorta();
+    sleep(TEMPO_ESPERA);
+    fechar_porta();
+}
+
+void movimento() {
+    printf("Indo para a próxima estação: %d\n", estacao_atual + 1);
+    sleep(5); // simula o tempo de viagem entre as estações
+}
+
+void linha() {
+    while (estacao_atual < ESTACAO_FINAL) {
+        movimento(); //viaja para a próxima
+        estacao_atual++; //chegou e acrescenta 1 na estação atual
+        parar_estacao(); //abre porta, espera, fecha porta
+    }
+    printf("Você chegou na estação final: %d\n", ESTACAO_FINAL);
+    parar_estacao(); //parada final
 }
 
 
