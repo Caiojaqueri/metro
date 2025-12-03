@@ -5,7 +5,7 @@
 #include <windows.h> // vou usar para simular o tempo de espera nas estações
 #include <time.h> // vou usar para simular o tempo de espera nas estações
 
-#define MAX_ESTACOES 12 
+#define MAX_ESTACOES 13
 #define ESTACAO_FINAL 1
 #define TEMPO_ESPERA 5 
 
@@ -39,56 +39,64 @@ int estado_porta = PORTA_FECHADA;
 
 void abrirPorta() {
     estado_porta = PORTA_ABERTA;
-    printf("Porta aberta na estação %s\n", metro[estacao_atual].nome);
 }
 
 void fechar_porta() {
     estado_porta = PORTA_FECHADA;
-    printf("Porta fechada na estação %d\n", estacao_atual);
 }
 
 void parar_estacao() {
-    printf("Você chegou na estação %d\n", estacao_atual);
+    printf("Estação %s\n", metro[estacao_atual].nome);//pega o nome da estacao atual do vetor metro
+
     abrirPorta();
-    Sleep(TEMPO_ESPERA);
+    printf("--- Porta ABERTA. Tempo de espera: %d segundos. ---\n", TEMPO_ESPERA);
+
+    fflush(stdout); //garante que a linha a cima apareça antes do sleep
+
+    Sleep(TEMPO_ESPERA * 1000);
+    /*O Sleep geralmente usa milissegundos, não segundos puros.
+    Se você está usando <windows.h> ou <unistd.h>,
+    verifique se 'Sleep()' espera segundos (s) ou milissegundos (ms).
+    Se for milissegundos, use TEMPO_ESPERA * 1000
+    Se TEMPO_ESPERA é 5, isso será 5000ms (5 segundos)*/
+
     fechar_porta();
+    printf("--- PI PI PI PI PI PI. Porta FECHADA.---\n");
 }
 
 void movimento() {
-    printf("Indo para a próxima estação: %d\n", estacao_atual + 1);
-    Sleep(5); // simula o tempo de viagem entre as estações
+    printf("Próxima estação: %s\n", metro[estacao_atual + 1].nome);
+
+    fflush(stdout);
+    Sleep(5 * 1000); // simula o tempo de viagem entre as estações
 }
 
 void linha() {
+    //enquanto a estação atual for menor que a estação final, ou seja enquanto o trem não chegar na etação final
     while (estacao_atual < ESTACAO_FINAL) {
-        movimento(); //viaja para a próxima
-        estacao_atual++; //chegou e acrescenta 1 na estação atual
-        parar_estacao(); //abre porta, espera, fecha porta
+        parar_estacao();//pare, abra a porta, feche a porta 
+
+        //se a estacao atual for igual a maxima - 1, igual a última estacao 
+        if (estacao_atual == MAX_ESTACOES - 1) {
+            //pare e printe
+            printf("Você chegou na última estação do metrô");
+            break;
+        }
+
+        //se não for a ultima estação vá até a próxima 
+        movimento();
+
+        //incrementa a proxima estação (a viagem que ocorreu)
+        estacao_atual++;
     }
-    printf("Você chegou na estação final: %d\n", ESTACAO_FINAL);
-    parar_estacao(); //parada final
 }
 
-/* 
-por enquanto eu penso em fazer a lógica dessa forma: 
-
-enquanto: 
-    o trem não chega até a estação final:
-faça:
-    pare em todas as estações
-    abre a porta 
-    espere 30 segundos
-    feche a porta 
-siga para a próxima estação
- */ 
-
 int main() {
-    printf("Bem vindo ao metrô de São Paulo!\n");
+    printf("Bem vindo ao metrô de São Paulo! Tenha a todos uma boa viagem!\n");
 
     linha();
 
     printf("Obrigado por usar o metrô de São Paulo!\n");
-
 
     return 0;
 }
