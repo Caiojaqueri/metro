@@ -1,5 +1,3 @@
-// indo para o trabalho me peguei pensando em como eu faria um programa simulando o metrô de São Paulo, então aqui estou eu, iniciando esse pequeno projeto, com o objetivo de colocar em prática meus conhecimentos em C e lógica de programação. 
-
 #include <stdio.h> // vou usar para entrada e saída de dados
 #include <string.h> // vou usar para manipulação de strings
 #include <windows.h> // vou usar para simular o tempo de espera nas estações
