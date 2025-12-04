@@ -47,7 +47,7 @@ void parar_estacao() {
     printf("Estação %s\n", metro[estacao_atual].nome);//pega o nome da estacao atual do vetor metro
 
     abrirPorta();
-    printf("--- Porta ABERTA. Tempo de espera: %d segundos. ---\n", TEMPO_ESPERA);
+    printf("--- Porta ABERTA. Tempo de espera: %d segundos. ---\n\n", TEMPO_ESPERA);
 
     fflush(stdout); //garante que a linha a cima apareça antes do sleep
 
@@ -59,11 +59,11 @@ void parar_estacao() {
     Se TEMPO_ESPERA é 5, isso será 5000ms (5 segundos)*/
 
     fechar_porta();
-    printf("--- PI PI PI PI PI PI. Porta FECHADA.---\n");
+    printf("--- PI PI PI PI PI PI. Porta FECHADA.---\n\n");
 }
 
 void movimento() {
-    printf("Próxima estação: %s\n", metro[estacao_atual + 1].nome);
+    printf("Próxima estação: %s\n\n", metro[estacao_atual + 1].nome);
 
     fflush(stdout);
     Sleep(2 * 1000); // simula o tempo de viagem entre as estações
@@ -77,7 +77,7 @@ void linha() {
 
         //se a estacao atual for = a max - 1, a ultima
         if(estacao_atual == MAX_ESTACOES - 1) {
-            printf("Estação final: %s\n", metro[estacao_atual].nome);
+            printf("Estação final: %s\n\n", metro[estacao_atual].nome);
             printf("\n Obrigado por usar o metrô de São Paulo\n");
             return;
         }
@@ -89,7 +89,7 @@ void linha() {
 }
 
 int main() {
-    printf("Bem vindo ao metrô de São Paulo! Tenha a todos uma boa viagem!\n");
+    printf("Bem vindo ao metrô de São Paulo! Tenha a todos uma boa viagem!\n\n");
 
     linha();
 
