@@ -75,7 +75,7 @@ void linha() {
         parar_estacao();
 
 
-        //se a estacao atual for = que a max = 1, a ultima
+        //se a estacao atual for = a max - 1, a ultima
         if(estacao_atual == MAX_ESTACOES - 1) {
             printf("Estação final: %s\n", metro[estacao_atual].nome);
             printf("\n Obrigado por usar o metrô de São Paulo\n");
