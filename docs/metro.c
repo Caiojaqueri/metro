@@ -6,11 +6,15 @@
 #include <time.h> // vou usar para simular o tempo de espera nas estações
 
 #define MAX_ESTACOES 13
-#define ESTACAO_FINAL 1
-#define TEMPO_ESPERA 5 
+#define TEMPO_ESPERA 2 
 
 #define PORTA_ABERTA 1
 #define PORTA_FECHADA 0
+
+int estacao_atual = 0;
+int estacao_final = MAX_ESTACOES - 1;
+int proxima_estacao = 1;
+int estado_porta = PORTA_FECHADA;
 
 typedef struct {
     int numero;
@@ -32,10 +36,6 @@ estacao metro[MAX_ESTACOES] = {
     {11, "Clínicas"},
     {12, "Vila Madalena"},
 };
-
-int estacao_atual = 0;
-int proxima_estacao = 1;
-int estado_porta = PORTA_FECHADA;
 
 void abrirPorta() {
     estado_porta = PORTA_ABERTA;
@@ -68,25 +68,24 @@ void movimento() {
     printf("Próxima estação: %s\n", metro[estacao_atual + 1].nome);
 
     fflush(stdout);
-    Sleep(5 * 1000); // simula o tempo de viagem entre as estações
+    Sleep(2 * 1000); // simula o tempo de viagem entre as estações
 }
 
 void linha() {
-    //enquanto a estação atual for menor que a estação final, ou seja enquanto o trem não chegar na etação final
-    while (estacao_atual < ESTACAO_FINAL) {
-        parar_estacao();//pare, abra a porta, feche a porta 
+    //para cada estacao, passe por cada uma ++ e pare na estacao
+    for (int i = 0; i < MAX_ESTACOES; i++) {
+        parar_estacao();
 
-        //se a estacao atual for igual a maxima - 1, igual a última estacao 
-        if (estacao_atual == MAX_ESTACOES - 1) {
-            //pare e printe
-            printf("Você chegou na última estação do metrô");
-            break;
+
+        //se a estacao atual for = que a max = 1, a ultima
+        if(estacao_atual == MAX_ESTACOES - 1) {
+            printf("Estação final: %s\n", metro[estacao_atual].nome);
+            printf("\n Obrigado por usar o metrô de São Paulo\n");
+            return;
         }
 
-        //se não for a ultima estação vá até a próxima 
         movimento();
 
-        //incrementa a proxima estação (a viagem que ocorreu)
         estacao_atual++;
     }
 }
@@ -95,8 +94,6 @@ int main() {
     printf("Bem vindo ao metrô de São Paulo! Tenha a todos uma boa viagem!\n");
 
     linha();
-
-    printf("Obrigado por usar o metrô de São Paulo!\n");
 
     return 0;
 }
