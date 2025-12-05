@@ -1,10 +1,10 @@
-#include <stdio.h> // vou usar para entrada e saída de dados
-#include <string.h> // vou usar para manipulação de strings
-#include <windows.h> // vou usar para simular o tempo de espera nas estações
-#include <time.h> // vou usar para simular o tempo de espera nas estações
+#include <stdio.h> 
+#include <string.h>
+#include <windows.h> 
+#include <time.h> 
 
 #define MAX_ESTACOES 13
-#define TEMPO_ESPERA 2 
+#define TEMPO_ESPERA 3
 
 #define PORTA_ABERTA 1
 #define PORTA_FECHADA 0
@@ -45,24 +45,22 @@ void fechar_porta() {
 
 void parar_estacao() {
     printf("Estação %s\n", metro[estacao_atual].nome);//pega o nome da estacao atual do vetor metro
-
     abrirPorta();
-    printf("--- Porta ABERTA. Tempo de espera: %d segundos. ---\n\n", TEMPO_ESPERA);
 
-    fflush(stdout); //garante que a linha a cima apareça antes do sleep
+    //loop do temporizador
+    for(int i = TEMPO_ESPERA; i > 0; i--){
+        printf("--- Porta ABERTA. Tempo restante: %d ---\r", i);
 
-    Sleep(TEMPO_ESPERA * 1000);
-    /*O Sleep geralmente usa milissegundos, não segundos puros.
-    Se você está usando <windows.h> ou <unistd.h>,
-    verifique se 'Sleep()' espera segundos (s) ou milissegundos (ms).
-    Se for milissegundos, use TEMPO_ESPERA * 1000
-    Se TEMPO_ESPERA é 5, isso será 5000ms (5 segundos)*/
+        fflush(stdout); //garante que a linha a cima apareça antes do sleep
+        Sleep(3 * 1000);
+    }
 
     fechar_porta();
     printf("--- PI PI PI PI PI PI. Porta FECHADA.---\n\n");
 }
 
 void movimento() {
+    printf("([:::])_([:::])_([:::])_([:::])_([:::])====>\n\n");
     printf("Próxima estação: %s\n\n", metro[estacao_atual + 1].nome);
 
     fflush(stdout);
